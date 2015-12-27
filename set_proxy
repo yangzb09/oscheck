@@ -3,24 +3,24 @@ url=$1
 command_exists() {
         command -v "$@" > /dev/null 2>&1
 }
-
-if [ ! -n $url ] ;then
+. ./check_release.sh
+if [ ! -n "$url" ] ;then
 	echo '请输入代理地址，如http://127.0.0.1:1080,socks5://127.0.0.1:1080 ...'
 	exit 0
 else
 	export https_proxy=$url
 	export http_proxy=$url
 	export PS1='\[\033[1;31m\]'$url'[\u@\h \W]\$\[\033[0m\]'
-fi
-
-if command_exists curl;then
-	curl www.google.com > /dev/null
-	if [ $? ] ;then
-		echo "proxy ok"
+	if command_exists curl;then
+		curl www.google.com > /dev/null
+		if [ $? ] ;then
+			echo "proxy ok"
+		else
+			echo "proxy url is invaild"
+			exit 0
+		fi
 	else
-		echo "proxy url is invaild"
-		exit 0
+		echo 'please install curl first'
 	fi
-else
-	echo 'please install curl first'
+	echo $lsb_dist
 fi

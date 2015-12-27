@@ -76,6 +76,3 @@ fi
         esac
 }
 check_os_release 
-echo $dist_version
-echo $lsb_dist
-
